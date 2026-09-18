@@ -14,7 +14,7 @@ export default function DisplayPage() {
     <main className="flex h-screen">
       <aside className="flex w-1/3 flex-col items-center justify-center gap-4 border-r border-neutral-200 p-8">
         <img
-          src={`https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(EMPLOYEE_URL)}`}
+          src={`/api/qr?url=${encodeURIComponent(EMPLOYEE_URL)}`}
           alt="QR code"
           width={300}
           height={300}
