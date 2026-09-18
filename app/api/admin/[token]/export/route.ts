@@ -13,7 +13,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ tok
   const questions = await getAllQuestions(getPool())
   const buffer = await buildQuestionsWorkbook(questions)
 
-  return new NextResponse(buffer, {
+  return new NextResponse(buffer as BodyInit, {
     status: 200,
     headers: {
       'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
