@@ -1,26 +1,58 @@
 @import "tailwindcss";
+@config "../tailwind.config.ts";
 
+/*
+ * VNGGames ON brand tokens.
+ * Source: real node data pulled via Figma MCP from
+ * https://www.figma.com/design/KprMCUGsAJYHAl5Dpd81ov/GamesOn (file key KprMCUGsAJYHAl5Dpd81ov).
+ *
+ * - get_variable_defs on the "Desktop - Light Mode" / "Mobile - Light Mode" / "Asset"
+ *   subtrees (nodes 58:50, 58:656, 193:445) all returned the same bound variables:
+ *   neutral/700 #404040, neutral/950 & general/foreground #0a0a0a,
+ *   orange/600 #ea580c, primary/base #ff4f18, primary/600 #501100,
+ *   secondary/electric cyan #00f0ff, Mystic Violet/base #a259ff,
+ *   button_shadow effect (drop shadows using #00000080, #FFB40080, #FF6400),
+ *   and content_Barlow_S/M/L text styles all set to
+ *   Font(family: "Barlow Semi Condensed", style: Regular, weight: 400).
+ * - get_design_context on the Nav (58:608), Header (58:512), and Q&A section (58:266)
+ *   frames showed the literal rendered colors: nav bg rgba(5,0,15,0.94), nav border
+ *   rgba(255,140,0,0.22), active nav underline/CTA #ff6400, headline gradient stops
+ *   #ffffff -> #ff8c00 -> #ffd500 in Inter Black/900, section marker + CTA border
+ *   #ffd500, decorative glow accent #e8007d, CTA button text in Inter Extra Bold/800,
+ *   nav links in Inter Semi Bold/600.
+ *
+ * cyan (#00f0ff) and Mystic Violet (#a259ff) exist as named variables in the file but
+ * were not observed rendered in any sampled frame, so they are intentionally NOT used
+ * below (see task-21-report.md "Concerns" for why: using unrendered tokens would be a
+ * guess, not a verified brand color).
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-brand-bg: #0a0a0a; /* general/foreground & neutral/950 variable */
+  --color-brand-nav: #05000f; /* literal Nav background rgb(5, 0, 15) */
+  --color-brand-border: #ff8c00; /* literal Nav border hue rgba(255, 140, 0, *) */
+  --color-brand-primary: #ff6400; /* literal CTA / active-nav-underline + button_shadow effect color */
+  --color-brand-primary-dark: #ea580c; /* orange/600 variable, used as hover/pressed state */
+  --color-brand-gold: #ffd500; /* literal headline gradient stop + section marker + CTA border */
+  --color-brand-orange: #ff8c00; /* literal mid gradient stop / dot particle color */
+  --color-brand-pink: #e8007d; /* literal decorative glow accent from the Q&A section */
+  --color-brand-neutral: #404040; /* neutral/700 variable */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-brand-bg: var(--color-brand-bg);
+  --color-brand-nav: var(--color-brand-nav);
+  --color-brand-border: var(--color-brand-border);
+  --color-brand-primary: var(--color-brand-primary);
+  --color-brand-primary-dark: var(--color-brand-primary-dark);
+  --color-brand-gold: var(--color-brand-gold);
+  --color-brand-orange: var(--color-brand-orange);
+  --color-brand-pink: var(--color-brand-pink);
+  --color-brand-neutral: var(--color-brand-neutral);
+  --font-display: var(--font-inter);
+  --font-body: var(--font-barlow);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-brand-bg);
+  color: #ffffff;
 }

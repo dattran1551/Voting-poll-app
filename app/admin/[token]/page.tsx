@@ -19,26 +19,33 @@ export default function AdminPage({ params }: { params: Promise<{ token: string 
   }
 
   return (
-    <main className="mx-auto max-w-2xl p-4">
+    <main className="mx-auto min-h-screen max-w-2xl bg-brand-bg p-4">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex gap-2">
           <button
             type="button"
             onClick={() => setTab('pending')}
-            className={tab === 'pending' ? 'font-bold' : ''}
+            className={`rounded-full px-3 py-1 font-display text-sm uppercase tracking-wide ${
+              tab === 'pending' ? 'bg-brand-primary text-white' : 'text-white/60'
+            }`}
           >
             {copy.admin.pendingTab}
           </button>
           <button
             type="button"
             onClick={() => setTab('approved')}
-            className={tab === 'approved' ? 'font-bold' : ''}
+            className={`rounded-full px-3 py-1 font-display text-sm uppercase tracking-wide ${
+              tab === 'approved' ? 'bg-brand-primary text-white' : 'text-white/60'
+            }`}
           >
             {copy.admin.approvedTab}
           </button>
         </div>
         <a href={`/api/admin/${token}/export`}>
-          <button type="button" className="rounded-lg border border-neutral-300 px-3 py-1">
+          <button
+            type="button"
+            className="rounded-lg border border-brand-border/20 px-3 py-1 font-body text-white hover:bg-white/5"
+          >
             {copy.admin.exportButton}
           </button>
         </a>
@@ -51,21 +58,35 @@ export default function AdminPage({ params }: { params: Promise<{ token: string 
       ) : (
         <div className="flex flex-col gap-3">
           {questions.map((question) => (
-            <div key={question.id} className="rounded-lg border border-neutral-200 p-4">
-              <p>{question.content}</p>
-              {tab === 'approved' && <p className="text-xs text-neutral-400">❤️ {question.likeCount}</p>}
+            <div key={question.id} className="rounded-lg border border-brand-border/20 bg-white/5 p-4">
+              <p className="font-body text-white">{question.content}</p>
+              {tab === 'approved' && (
+                <p className="font-body text-xs text-brand-gold">❤️ {question.likeCount}</p>
+              )}
               <div className="mt-2 flex gap-2">
                 {tab === 'pending' ? (
                   <>
-                    <button type="button" onClick={() => handleAct(question.id, 'approved')}>
+                    <button
+                      type="button"
+                      onClick={() => handleAct(question.id, 'approved')}
+                      className="rounded-full bg-brand-primary px-3 py-1 font-display text-xs uppercase tracking-wide text-white hover:bg-brand-primary-dark"
+                    >
                       {copy.admin.approve}
                     </button>
-                    <button type="button" onClick={() => handleAct(question.id, 'rejected')}>
+                    <button
+                      type="button"
+                      onClick={() => handleAct(question.id, 'rejected')}
+                      className="rounded-full border border-brand-border/20 px-3 py-1 font-display text-xs uppercase tracking-wide text-white/70 hover:bg-white/5"
+                    >
                       {copy.admin.reject}
                     </button>
                   </>
                 ) : (
-                  <button type="button" onClick={() => handleAct(question.id, 'answered')}>
+                  <button
+                    type="button"
+                    onClick={() => handleAct(question.id, 'answered')}
+                    className="rounded-full bg-brand-primary px-3 py-1 font-display text-xs uppercase tracking-wide text-white hover:bg-brand-primary-dark"
+                  >
                     {copy.admin.markAnswered}
                   </button>
                 )}

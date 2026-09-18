@@ -1,16 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Barlow_Semi_Condensed } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Brand fonts, pulled from the real VNGGames ON Figma file (KprMCUGsAJYHAl5Dpd81ov):
+// - Inter (weights 600/800/900) is used for nav labels, headlines, and CTA buttons.
+// - Barlow Semi Condensed (weight 400) is used for body copy.
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["600", "800", "900"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const barlowSemiCondensed = Barlow_Semi_Condensed({
+  variable: "--font-barlow",
   subsets: ["latin"],
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -23,9 +28,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${barlowSemiCondensed.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-brand-bg font-body text-white">
         <Toaster richColors position="top-center" />
         {children}
       </body>
