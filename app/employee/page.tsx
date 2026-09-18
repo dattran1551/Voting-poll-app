@@ -13,10 +13,6 @@ const MAX_LENGTH = 300
 
 export default function EmployeePage() {
   const gateState = useCapacityGate()
-  const { questions, state } = useQuestionList()
-  const [likedIds, setLikedIds] = useState<Set<string>>(new Set())
-  const [draft, setDraft] = useState('')
-  const [submitting, setSubmitting] = useState(false)
 
   if (gateState !== 'admitted') {
     return (
@@ -25,6 +21,15 @@ export default function EmployeePage() {
       </main>
     )
   }
+
+  return <AdmittedEmployeeView />
+}
+
+function AdmittedEmployeeView() {
+  const { questions, state } = useQuestionList()
+  const [likedIds, setLikedIds] = useState<Set<string>>(new Set())
+  const [draft, setDraft] = useState('')
+  const [submitting, setSubmitting] = useState(false)
 
   async function handleLike(questionId: string) {
     setLikedIds((prev) => new Set(prev).add(questionId))
