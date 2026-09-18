@@ -1,0 +1,39 @@
+'use client'
+
+import { useQuestionList } from '@/lib/useQuestionList'
+import { QuestionCard } from '@/components/QuestionCard'
+import { StateMessage } from '@/components/StateMessage'
+import { copy } from '@/lib/copy'
+
+const EMPLOYEE_URL = typeof window !== 'undefined' ? `${window.location.origin}/employee` : ''
+
+export default function DisplayPage() {
+  const { questions, state } = useQuestionList()
+
+  return (
+    <main className="flex h-screen">
+      <aside className="flex w-1/3 flex-col items-center justify-center gap-4 border-r border-neutral-200 p-8">
+        <img
+          src={`https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(EMPLOYEE_URL)}`}
+          alt="QR code"
+          width={300}
+          height={300}
+        />
+        <p className="text-center text-lg">{copy.display.qrHint}</p>
+      </aside>
+      <section className="flex-1 overflow-y-auto p-8">
+        {state === 'loading' ? (
+          <StateMessage kind="loading" text={copy.shared.loading} />
+        ) : questions.length === 0 ? (
+          <StateMessage kind="empty" text={copy.display.empty} />
+        ) : (
+          <div className="flex flex-col gap-4">
+            {questions.map((question) => (
+              <QuestionCard key={question.id} question={question} likable={false} liked={false} onLike={() => {}} />
+            ))}
+          </div>
+        )}
+      </section>
+    </main>
+  )
+}
