@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   }
 
   const buffer = await QRCode.toBuffer(url, { width: 400 })
-  return new NextResponse(buffer, {
+  return new NextResponse(buffer as BodyInit, {
     status: 200,
     headers: { 'Content-Type': 'image/png' },
   })
