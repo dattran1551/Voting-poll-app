@@ -19,4 +19,10 @@ describe('isValidAdminToken', () => {
   it('returns false for any other value', () => {
     expect(isValidAdminToken('guess')).toBe(false)
   })
+
+  it('returns false when ADMIN_SECRET_TOKEN is unset', () => {
+    delete process.env.ADMIN_SECRET_TOKEN
+    expect(isValidAdminToken('')).toBe(false)
+    expect(isValidAdminToken('anything')).toBe(false)
+  })
 })
