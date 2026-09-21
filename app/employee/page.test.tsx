@@ -73,6 +73,6 @@ describe('EmployeePage', () => {
     const textarea = screen.getByPlaceholderText('Nhập câu hỏi của bạn... / Type your question...')
     fireEvent.change(textarea, { target: { value: 'Hello' } })
 
-    expect(screen.getByText('295')).toBeInTheDocument()
+    expect(screen.getByText('495')).toBeInTheDocument()
   })
 })

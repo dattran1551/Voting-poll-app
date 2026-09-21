@@ -11,7 +11,7 @@ export async function POST(request: Request) {
   const body = await request.json()
   const content = typeof body.content === 'string' ? body.content.trim() : ''
 
-  if (!content || content.length > 300) {
+  if (!content || content.length > 500) {
     return NextResponse.json({ error: 'invalid_content' }, { status: 400 })
   }
 

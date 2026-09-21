@@ -68,7 +68,7 @@ Cả 3 giao diện tự làm mới dữ liệu theo chu kỳ vài giây (polling
 
 ### 6.3. Gửi câu hỏi
 
-- Khung cố định phía dưới màn hình: ô nhập chữ (giới hạn ~300 ký tự, có đếm ký tự còn lại) + nút "Gửi câu hỏi / Submit" + ghi chú: "Để đảm bảo tinh thần chuyên nghiệp của sự kiện, câu hỏi của bạn sẽ được kiểm duyệt trước bởi Ban tổ chức trước khi được thể hiện lên màn hình."
+- Khung cố định phía dưới màn hình: ô nhập chữ (giới hạn ~500 ký tự, có đếm ký tự còn lại) + nút "Gửi câu hỏi / Submit" + ghi chú: "Để đảm bảo tinh thần chuyên nghiệp của sự kiện, câu hỏi của bạn sẽ được kiểm duyệt trước bởi Ban tổ chức trước khi được thể hiện lên màn hình."
 - Sau khi gửi, **không theo dõi trạng thái duyệt của câu hỏi mình đã gửi** — chỉ báo "đã gửi thành công", muốn biết câu hỏi có lên hay không thì tự nhìn danh sách công khai.
 
 ### 6.4. Trạng thái

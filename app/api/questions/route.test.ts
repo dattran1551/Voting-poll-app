@@ -51,10 +51,10 @@ describe('POST /api/questions', () => {
     expect(response.status).toBe(400)
   })
 
-  it('rejects content over 300 characters', async () => {
+  it('rejects content over 500 characters', async () => {
     const request = new Request('http://localhost/api/questions', {
       method: 'POST',
-      body: JSON.stringify({ content: 'a'.repeat(301) }),
+      body: JSON.stringify({ content: 'a'.repeat(501) }),
     })
     const response = await POST(request as never)
     expect(response.status).toBe(400)
