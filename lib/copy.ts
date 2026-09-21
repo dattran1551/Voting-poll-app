@@ -29,5 +29,7 @@ export const copy = {
   },
   shared: {
     loading: 'Đang tải... / Loading...',
+    headerTitle: 'Q&A CÙNG GMT / ASK YOUR QUESTIONS FOR GMT',
+    logoAlt: 'VNGGames ON',
   },
 } as const
