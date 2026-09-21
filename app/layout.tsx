@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Barlow_Semi_Condensed } from "next/font/google";
+import { Inter, Inter_Tight, Barlow_Semi_Condensed } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 
@@ -18,6 +18,14 @@ const barlowSemiCondensed = Barlow_Semi_Condensed({
   weight: ["400"],
 });
 
+// Inter Tight for question text on the Display/Employee question list — requested
+// bigger and more legible than the rest of the body copy.
+const interTight = Inter_Tight({
+  variable: "--font-inter-tight",
+  subsets: ["latin"],
+  weight: ["500", "600"],
+});
+
 export const metadata: Metadata = {
   title: "Audience Q&A — VNGGames ON",
   description:
@@ -28,7 +36,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${barlowSemiCondensed.variable} h-full antialiased`}
+      className={`${inter.variable} ${barlowSemiCondensed.variable} ${interTight.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-brand-bg font-body text-white">
         <Toaster richColors position="top-center" />

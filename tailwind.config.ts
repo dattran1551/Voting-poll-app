@@ -22,6 +22,7 @@ const config: Config = {
       fontFamily: {
         display: ["var(--font-inter)", "sans-serif"],
         body: ["var(--font-barlow)", "sans-serif"],
+        question: ["var(--font-inter-tight)", "sans-serif"],
       },
     },
   },

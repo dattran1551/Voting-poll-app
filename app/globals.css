@@ -50,6 +50,7 @@
   --color-brand-neutral: var(--color-brand-neutral);
   --font-display: var(--font-inter);
   --font-body: var(--font-barlow);
+  --font-question: var(--font-inter-tight);
 }
 
 body {
