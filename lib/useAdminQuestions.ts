@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { Question, QuestionStatus } from './types'
 
 const POLL_INTERVAL_MS = 4000
@@ -6,8 +6,11 @@ const POLL_INTERVAL_MS = 4000
 export function useAdminQuestions(token: string, tab: 'pending' | 'approved') {
   const [questions, setQuestions] = useState<Question[]>([])
   const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading')
+  const hasLoadedOnce = useRef(false)
 
   useEffect(() => {
+    hasLoadedOnce.current = false
+
     async function load() {
       try {
         const response = await fetch(`/api/admin/${token}/questions?status=${tab}`)
@@ -15,8 +18,11 @@ export function useAdminQuestions(token: string, tab: 'pending' | 'approved') {
         const body = await response.json()
         setQuestions(body.questions)
         setState('ready')
+        hasLoadedOnce.current = true
       } catch {
-        setState('error')
+        if (!hasLoadedOnce.current) {
+          setState('error')
+        }
       }
     }
 

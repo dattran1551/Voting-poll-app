@@ -14,6 +14,21 @@ beforeEach(() => {
 })
 
 describe('EmployeePage', () => {
+  it('shows a neutral loading message while the capacity gate is still checking', () => {
+    vi.spyOn(gateModule, 'useCapacityGate').mockReturnValue('checking')
+    const useQuestionListSpy = vi.spyOn(listModule, 'useQuestionList').mockReturnValue({ questions: [], state: 'loading' })
+
+    render(<EmployeePage />)
+
+    expect(screen.getByText('Đang tải... / Loading...')).toBeInTheDocument()
+    expect(
+      screen.queryByText('Hệ thống đang quá tải, vui lòng chờ giây lát... / System is busy, please wait a moment...')
+    ).not.toBeInTheDocument()
+    // The gate must be admitted before the question list (and its polling fetch to
+    // /api/questions) is ever mounted, so the capacity gate actually limits backend load.
+    expect(useQuestionListSpy).not.toHaveBeenCalled()
+  })
+
   it('shows the waiting-room message while the capacity gate is waiting', () => {
     vi.spyOn(gateModule, 'useCapacityGate').mockReturnValue('waiting')
     const useQuestionListSpy = vi.spyOn(listModule, 'useQuestionList').mockReturnValue({ questions: [], state: 'loading' })

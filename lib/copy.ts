@@ -25,6 +25,7 @@ export const copy = {
     pendingEmpty: 'Không có câu hỏi mới / No new questions',
     approvedEmpty: 'Chưa có câu hỏi nào được duyệt / No approved questions yet',
     actionFailure: 'Thao tác thất bại, thử lại / Action failed, please retry',
+    loadFailure: 'Không tải được câu hỏi, thử lại / Failed to load questions, please retry',
   },
   shared: {
     loading: 'Đang tải... / Loading...',

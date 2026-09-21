@@ -14,7 +14,15 @@ const MAX_LENGTH = 300
 export default function EmployeePage() {
   const gateState = useCapacityGate()
 
-  if (gateState !== 'admitted') {
+  if (gateState === 'checking') {
+    return (
+      <main className="flex h-screen items-center justify-center bg-brand-bg p-8">
+        <StateMessage kind="loading" text={copy.shared.loading} />
+      </main>
+    )
+  }
+
+  if (gateState === 'waiting') {
     return (
       <main className="flex h-screen items-center justify-center bg-brand-bg p-8">
         <StateMessage kind="loading" text={copy.employee.waiting} />

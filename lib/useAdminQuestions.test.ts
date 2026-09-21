@@ -36,6 +36,33 @@ describe('useAdminQuestions', () => {
     expect(result.current.questions).toHaveLength(0)
   })
 
+  it('sets state to "error" when the first load fails', async () => {
+    global.fetch = vi.fn().mockResolvedValue({ ok: false, json: async () => ({}) }) as never
+
+    const { result } = renderHook(() => useAdminQuestions('secret-token', 'pending'))
+    await waitFor(() => expect(result.current.state).toBe('error'))
+    expect(result.current.questions).toHaveLength(0)
+  })
+
+  it('keeps state "ready" and the existing questions when a later refresh fails', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true })
+    global.fetch = vi.fn()
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ questions: [{ id: '1', content: 'Q', status: 'pending', likeCount: 0, createdAt: 'now' }] }) })
+      .mockResolvedValue({ ok: false, json: async () => ({}) })
+
+    const { result } = renderHook(() => useAdminQuestions('secret-token', 'pending'))
+    await waitFor(() => expect(result.current.state).toBe('ready'))
+    expect(result.current.questions).toHaveLength(1)
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(4000)
+    })
+
+    expect(result.current.state).toBe('ready')
+    expect(result.current.questions).toHaveLength(1)
+    vi.useRealTimers()
+  })
+
   it('act() keeps the question in the list and returns false on failure', async () => {
     global.fetch = vi.fn()
       .mockResolvedValueOnce({ ok: true, json: async () => ({ questions: [{ id: '1', content: 'Q', status: 'pending', likeCount: 0, createdAt: 'now' }] }) })

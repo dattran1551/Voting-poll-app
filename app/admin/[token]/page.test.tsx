@@ -1,9 +1,14 @@
-import { describe, it, expect, vi } from 'vitest'
-import { render, screen, fireEvent, act as rtlAct } from '@testing-library/react'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { render, screen, fireEvent, act as rtlAct, waitFor } from '@testing-library/react'
+import { toast } from 'sonner'
 import AdminPage from './page'
 import * as adminHook from '@/lib/useAdminQuestions'
 
 vi.mock('@/lib/useAdminQuestions')
+
+beforeEach(() => {
+  vi.restoreAllMocks()
+})
 
 describe('AdminPage', () => {
   // Note: AdminPage unwraps `params` (a Promise) via React's `use()`. Even a
@@ -68,5 +73,60 @@ describe('AdminPage', () => {
     fireEvent.click(screen.getByText('Duyệt / Approve'))
 
     expect(act).toHaveBeenCalledWith('1', 'approved')
+  })
+
+  it('shows the load-failure message when state is "error"', async () => {
+    vi.spyOn(adminHook, 'useAdminQuestions').mockReturnValue({ questions: [], state: 'error', act: vi.fn() })
+
+    await rtlAct(async () => {
+      render(<AdminPage params={Promise.resolve({ token: 'secret-token' })} />)
+    })
+
+    expect(screen.getByText('Không tải được câu hỏi, thử lại / Failed to load questions, please retry')).toBeInTheDocument()
+  })
+
+  describe('export', () => {
+    beforeEach(() => {
+      vi.spyOn(adminHook, 'useAdminQuestions').mockReturnValue({
+        questions: [{ id: '1', content: 'Q1', status: 'pending', likeCount: 0, createdAt: 'now' }],
+        state: 'ready',
+        act: vi.fn(),
+      })
+      vi.stubGlobal('URL', { ...URL, createObjectURL: vi.fn().mockReturnValue('blob:mock'), revokeObjectURL: vi.fn() })
+    })
+
+    it('fetches the export file from the correct URL when the export button is clicked', async () => {
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: true,
+        blob: async () => new Blob(['data']),
+      }) as never
+
+      await rtlAct(async () => {
+        render(<AdminPage params={Promise.resolve({ token: 'secret-token' })} />)
+      })
+
+      await rtlAct(async () => {
+        fireEvent.click(screen.getByText('Xuất Excel / Export to Excel'))
+      })
+
+      await waitFor(() => expect(global.fetch).toHaveBeenCalledWith('/api/admin/secret-token/export'))
+    })
+
+    it('shows an error toast when the export request fails', async () => {
+      const toastErrorSpy = vi.spyOn(toast, 'error')
+      global.fetch = vi.fn().mockResolvedValue({ ok: false }) as never
+
+      await rtlAct(async () => {
+        render(<AdminPage params={Promise.resolve({ token: 'secret-token' })} />)
+      })
+
+      await rtlAct(async () => {
+        fireEvent.click(screen.getByText('Xuất Excel / Export to Excel'))
+      })
+
+      await waitFor(() =>
+        expect(toastErrorSpy).toHaveBeenCalledWith('Xuất file thất bại, thử lại / Export failed, please retry')
+      )
+    })
   })
 })

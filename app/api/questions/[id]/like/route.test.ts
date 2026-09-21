@@ -35,4 +35,18 @@ describe('POST /api/questions/[id]/like', () => {
     const response = await POST(request as never, { params: Promise.resolve({ id: 'q1' }) })
     expect(response.status).toBe(400)
   })
+
+  it('returns an error status when the question is not approved', async () => {
+    vi.spyOn(likes, 'likeQuestion').mockRejectedValue(new Error('question_not_approved'))
+
+    const request = new Request('http://localhost/api/questions/q1/like', {
+      method: 'POST',
+      body: JSON.stringify({ deviceId: 'device-1' }),
+    })
+    const response = await POST(request as never, { params: Promise.resolve({ id: 'q1' }) })
+
+    expect(response.status).toBe(400)
+    const body = await response.json()
+    expect(body).toEqual({ error: 'question_not_approved' })
+  })
 })

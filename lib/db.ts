@@ -9,7 +9,7 @@ export function getPool(): QueryExecutor {
     if (!connectionString) {
       throw new Error('DATABASE_URL environment variable is required')
     }
-    pool = new Pool({ connectionString })
+    pool = new Pool({ connectionString, max: 5, idleTimeoutMillis: 10_000 })
   }
   return pool
 }

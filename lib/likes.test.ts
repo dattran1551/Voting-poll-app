@@ -41,4 +41,31 @@ describe('likeQuestion', () => {
 
     expect(result).toEqual({ likeCount: 2, alreadyLiked: false })
   })
+
+  it('rejects liking a question that is still pending, without recording a like', async () => {
+    const q = await createQuestion(db, 'Question A')
+
+    await expect(likeQuestion(db, q.id, 'device-1')).rejects.toThrow('question_not_approved')
+
+    const countResult = await db.query<{ count: number }>(
+      'SELECT COUNT(*)::int AS count FROM likes WHERE question_id = $1',
+      [q.id]
+    )
+    expect(Number(countResult.rows[0].count)).toBe(0)
+  })
+
+  it('rejects liking a rejected question', async () => {
+    const q = await createQuestion(db, 'Question A')
+    await updateQuestionStatus(db, q.id, 'rejected')
+
+    await expect(likeQuestion(db, q.id, 'device-1')).rejects.toThrow('question_not_approved')
+  })
+
+  it('rejects liking a question that has already been answered', async () => {
+    const q = await createQuestion(db, 'Question A')
+    await updateQuestionStatus(db, q.id, 'approved')
+    await updateQuestionStatus(db, q.id, 'answered')
+
+    await expect(likeQuestion(db, q.id, 'device-1')).rejects.toThrow('question_not_approved')
+  })
 })

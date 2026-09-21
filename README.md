@@ -42,9 +42,9 @@ You have two free options. Pick one:
 
 1. Go to [neon.tech](https://neon.tech) and sign up with your email or GitHub account.
 2. Create a new project.
-3. Neon will show you a connection string. It looks like:
+3. Neon will show you a connection string. Make sure you copy the **pooled** connection string — the one with `-pooler` in the hostname (this is usually the default one shown). It looks like:
    ```
-   postgresql://user:password@host.neon.tech/dbname?sslmode=require
+   postgresql://user:password@host-pooler.neon.tech/dbname?sslmode=require
    ```
 4. **Copy this entire string** — you'll need it later. Keep it secret.
 
@@ -53,8 +53,10 @@ You have two free options. Pick one:
 1. Go to [supabase.com](https://supabase.com) and sign up with your email or GitHub account.
 2. Create a new project.
 3. In the left sidebar, click **Settings** → **Database**.
-4. Under "Connection String", select **URI** (not Connection Pooler).
+4. Under "Connection String", select **Connection pooling** (sometimes labeled "Transaction" mode, port 6543) — not the direct "URI" option.
 5. **Copy the entire connection string** — you'll need it later. Keep it secret.
+
+**Why pooled, not direct?** With ~500 phones all polling the app every few seconds, that many devices connecting directly to the database at once could overwhelm it. A pooled connection string (Neon: the one with `-pooler` in the hostname; Supabase: "Connection pooling" / port 6543) shares a small set of real database connections across all those requests instead.
 
 ---
 
@@ -167,7 +169,7 @@ Before the event, test everything to make sure it works:
 
 1. **Open the Display screen**
    - Visit: `https://yourdomain.vercel.app/display` (replace `yourdomain` with your actual domain from Vercel)
-   - You should see the VNGGames ON logo, a QR code, and a message "No questions yet / Chưa có câu hỏi nào"
+   - You should see a QR code and a message "No questions yet / Chưa có câu hỏi nào"
 
 2. **Open the Employee screen on your phone**
    - Scan the QR code shown on the Display with your phone
@@ -181,7 +183,7 @@ Before the event, test everything to make sure it works:
 
 4. **Open the Admin screen**
    - Visit: `https://yourdomain.vercel.app/admin/YOUR_SECRET_TOKEN` (use the token you generated)
-   - You should see a tab called "Pending Questions" with your test question in the list
+   - You should see a tab called "Pending / Chờ duyệt" with your test question in the list
 
 5. **Approve the question**
    - On the Admin screen, click the **Approve** button next to your test question
@@ -199,8 +201,8 @@ Before the event, test everything to make sure it works:
    - On Display, the like count should also increase (refresh to see it)
 
 8. **Mark as Answered**
-   - Go back to Admin and click the **"Answered"** tab
-   - Click **"Mark as Answered"** next to your question
+   - Go back to Admin and click the **"Approved / Đã duyệt"** tab
+   - Click **"Mark as answered"** next to your question
    - The question should disappear from the Display screen
 
 9. **Export to Excel**
@@ -266,7 +268,7 @@ If something failed, take a screenshot and contact your developer with details.
 ### The QR code doesn't work
 - The QR code is generated from your live domain. Make sure you're reading it from the Display screen that's showing your actual Vercel domain
 
-### Admin screen shows "Unauthorized"
+### Admin screen shows "Failed to load questions / Không tải được câu hỏi"
 - Check that your admin URL includes the full token at the end (everything you generated in Step 2)
 - Make sure the token in the URL matches exactly what you set in Vercel's ADMIN_SECRET_TOKEN variable
 

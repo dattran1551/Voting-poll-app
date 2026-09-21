@@ -9,12 +9,34 @@ import { copy } from '@/lib/copy'
 export default function AdminPage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = use(params)
   const [tab, setTab] = useState<'pending' | 'approved'>('pending')
+  const [exporting, setExporting] = useState(false)
   const { questions, state, act } = useAdminQuestions(token, tab)
 
   async function handleAct(id: string, status: 'approved' | 'rejected' | 'answered') {
     const success = await act(id, status)
     if (!success) {
       toast.error(copy.admin.actionFailure)
+    }
+  }
+
+  async function handleExport() {
+    setExporting(true)
+    try {
+      const response = await fetch(`/api/admin/${token}/export`)
+      if (!response.ok) throw new Error('export_failed')
+      const blob = await response.blob()
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = 'audience-qa-export.xlsx'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(url)
+    } catch {
+      toast.error(copy.admin.exportFailure)
+    } finally {
+      setExporting(false)
     }
   }
 
@@ -41,18 +63,20 @@ export default function AdminPage({ params }: { params: Promise<{ token: string 
             {copy.admin.approvedTab}
           </button>
         </div>
-        <a href={`/api/admin/${token}/export`}>
-          <button
-            type="button"
-            className="rounded-lg border border-brand-border/20 px-3 py-1 font-body text-white hover:bg-white/5"
-          >
-            {copy.admin.exportButton}
-          </button>
-        </a>
+        <button
+          type="button"
+          onClick={handleExport}
+          disabled={exporting}
+          className="rounded-lg border border-brand-border/20 px-3 py-1 font-body text-white hover:bg-white/5 disabled:opacity-50"
+        >
+          {exporting ? copy.admin.exportGenerating : copy.admin.exportButton}
+        </button>
       </div>
 
       {state === 'loading' ? (
         <StateMessage kind="loading" text={copy.shared.loading} />
+      ) : state === 'error' ? (
+        <StateMessage kind="error" text={copy.admin.loadFailure} />
       ) : questions.length === 0 ? (
         <StateMessage kind="empty" text={tab === 'pending' ? copy.admin.pendingEmpty : copy.admin.approvedEmpty} />
       ) : (

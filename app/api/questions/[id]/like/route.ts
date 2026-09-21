@@ -11,6 +11,13 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     return NextResponse.json({ error: 'missing_device_id' }, { status: 400 })
   }
 
-  const result = await likeQuestion(getPool(), id, deviceId)
-  return NextResponse.json(result)
+  try {
+    const result = await likeQuestion(getPool(), id, deviceId)
+    return NextResponse.json(result)
+  } catch (error) {
+    if (error instanceof Error && error.message === 'question_not_approved') {
+      return NextResponse.json({ error: 'question_not_approved' }, { status: 400 })
+    }
+    throw error
+  }
 }

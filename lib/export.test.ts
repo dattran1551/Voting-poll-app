@@ -9,7 +9,7 @@ describe('buildQuestionsWorkbook', () => {
     ])
 
     const workbook = new ExcelJS.Workbook()
-    await workbook.xlsx.load(buffer as any)
+    await workbook.xlsx.load(buffer as unknown as Parameters<typeof workbook.xlsx.load>[0])
     const sheet = workbook.worksheets[0]
 
     expect(sheet.getRow(1).values).toContain('Nội dung / Content')

@@ -5,6 +5,14 @@ export async function likeQuestion(
   questionId: string,
   deviceId: string
 ): Promise<{ likeCount: number; alreadyLiked: boolean }> {
+  const questionResult = await db.query<{ status: string }>(
+    'SELECT status FROM questions WHERE id = $1',
+    [questionId]
+  )
+  if (questionResult.rows.length === 0 || questionResult.rows[0].status !== 'approved') {
+    throw new Error('question_not_approved')
+  }
+
   const existing = await db.query(
     'SELECT 1 FROM likes WHERE question_id = $1 AND device_id = $2',
     [questionId, deviceId]
