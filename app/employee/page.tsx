@@ -128,7 +128,7 @@ function AdmittedEmployeeView() {
               {copy.employee.submitButton}
             </button>
           </div>
-          <p className="mt-2 font-body text-xs text-white">{copy.employee.moderationNotice}</p>
+          <p className="mt-2 font-body text-[15.6px] text-white">{copy.employee.moderationNotice}</p>
         </section>
       </main>
     </div>
