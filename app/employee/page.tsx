@@ -17,7 +17,7 @@ export default function EmployeePage() {
 
   if (gateState === 'checking') {
     return (
-      <div className="flex h-screen flex-col bg-brand-bg">
+      <div className="flex h-screen flex-col bg-galaxy">
         <BrandHeader />
         <main className="flex flex-1 items-center justify-center p-8">
           <StateMessage kind="loading" text={copy.shared.loading} bright />
@@ -28,7 +28,7 @@ export default function EmployeePage() {
 
   if (gateState === 'waiting') {
     return (
-      <div className="flex h-screen flex-col bg-brand-bg">
+      <div className="flex h-screen flex-col bg-galaxy">
         <BrandHeader />
         <main className="flex flex-1 items-center justify-center p-8">
           <StateMessage kind="loading" text={copy.employee.waiting} bright />
@@ -86,7 +86,7 @@ function AdmittedEmployeeView() {
   }
 
   return (
-    <div className="flex h-screen flex-col bg-brand-bg">
+    <div className="flex h-screen flex-col bg-galaxy">
       <BrandHeader />
       <main className="flex flex-1 flex-col overflow-hidden">
         <section className="flex-1 overflow-y-auto p-4">
@@ -114,7 +114,7 @@ function AdmittedEmployeeView() {
             maxLength={MAX_LENGTH}
             placeholder={copy.employee.submitPlaceholder}
             onChange={(event) => setDraft(event.target.value)}
-            className="w-full resize-none rounded-lg border border-brand-border/20 bg-white/5 p-2 font-body text-white placeholder:text-white/40"
+            className="glass-panel w-full resize-none rounded-lg p-2 font-body text-white placeholder:text-white/50"
             rows={3}
           />
           <div className="mt-1 flex items-center justify-between">

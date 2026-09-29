@@ -28,7 +28,7 @@ export default function DisplayPage() {
   const employeeUrl = useSyncExternalStore(subscribeNoop, getEmployeeUrlSnapshot, getEmployeeUrlServerSnapshot)
 
   return (
-    <div className="flex h-screen flex-col bg-brand-bg">
+    <div className="flex h-screen flex-col bg-galaxy">
       <BrandHeader />
       <main className="flex flex-1 overflow-hidden">
         <aside className="flex w-1/3 flex-col items-center justify-center gap-4 border-r border-brand-border/20 p-8">
