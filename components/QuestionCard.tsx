@@ -13,9 +13,9 @@ export function QuestionCard({
 }) {
   return (
     <div className="glass-panel flex items-center justify-between gap-4 rounded-lg p-4">
-      <p className="flex-1 font-question text-[26px] font-medium leading-snug text-white">{question.content}</p>
+      <p className="flex-1 font-question text-lg sm:text-[26px] font-medium leading-snug text-white">{question.content}</p>
       <div className="flex items-center gap-2 shrink-0">
-        <span className="font-body text-[26px] font-bold tabular-nums text-brand-gold">{question.likeCount}</span>
+        <span className="font-body text-lg sm:text-[26px] font-bold tabular-nums text-brand-gold">{question.likeCount}</span>
         {likable && (
           <button
             type="button"
