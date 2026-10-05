@@ -1,4 +1,5 @@
 import { Pool } from 'pg'
+import { withSchema } from './schema'
 import type { QueryExecutor } from './types'
 
 let pool: QueryExecutor | undefined
@@ -9,7 +10,7 @@ export function getPool(): QueryExecutor {
     if (!connectionString) {
       throw new Error('DATABASE_URL environment variable is required')
     }
-    pool = new Pool({ connectionString, max: 5, idleTimeoutMillis: 10_000 })
+    pool = withSchema(new Pool({ connectionString, max: 5, idleTimeoutMillis: 10_000 }))
   }
   return pool
 }
