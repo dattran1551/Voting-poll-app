@@ -20,3 +20,17 @@ describe('BrandHeader', () => {
     expect(vi.compareDocumentPosition(en) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
   })
 })
+
+describe('BrandHeader wifi notice', () => {
+  it('shows the wifi notice under the English headline when asked to', () => {
+    render(<BrandHeader wifiNotice />)
+    const en = screen.getByText(copy.shared.headerTitleEn)
+    const notice = screen.getByText(copy.shared.wifiNotice)
+    expect(en.compareDocumentPosition(notice) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  })
+
+  it('does not show the wifi notice by default', () => {
+    render(<BrandHeader />)
+    expect(screen.queryByText(copy.shared.wifiNotice)).not.toBeInTheDocument()
+  })
+})

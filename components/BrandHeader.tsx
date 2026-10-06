@@ -1,6 +1,7 @@
 import { copy } from '@/lib/copy'
+import { WifiNotice } from './WifiNotice'
 
-export function BrandHeader() {
+export function BrandHeader({ wifiNotice = false }: { wifiNotice?: boolean }) {
   return (
     <header className="flex flex-col gap-3 px-4 pt-4 pb-3">
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -12,6 +13,7 @@ export function BrandHeader() {
         <p className="text-center font-display text-sm font-bold uppercase tracking-wide text-white sm:text-lg lg:text-xl">
           {copy.shared.headerTitleEn}
         </p>
+        {wifiNotice && <WifiNotice />}
       </div>
     </header>
   )

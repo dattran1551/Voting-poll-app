@@ -18,7 +18,7 @@ export default function EmployeePage() {
   if (gateState === 'checking') {
     return (
       <div className="flex h-screen flex-col bg-galaxy">
-        <BrandHeader />
+        <BrandHeader wifiNotice />
         <main className="flex flex-1 items-center justify-center p-8">
           <StateMessage kind="loading" text={copy.shared.loading} bright />
         </main>
@@ -29,7 +29,7 @@ export default function EmployeePage() {
   if (gateState === 'waiting') {
     return (
       <div className="flex h-screen flex-col bg-galaxy">
-        <BrandHeader />
+        <BrandHeader wifiNotice />
         <main className="flex flex-1 items-center justify-center p-8">
           <StateMessage kind="loading" text={copy.employee.waiting} bright />
         </main>
@@ -87,7 +87,7 @@ function AdmittedEmployeeView() {
 
   return (
     <div className="flex h-screen flex-col bg-galaxy">
-      <BrandHeader />
+      <BrandHeader wifiNotice />
       <main className="flex flex-1 flex-col overflow-hidden">
         <section className="flex-1 overflow-y-auto p-4">
           {state === 'loading' ? (

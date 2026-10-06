@@ -5,6 +5,7 @@ import { useQuestionList } from '@/lib/useQuestionList'
 import { QuestionCard } from '@/components/QuestionCard'
 import { StateMessage } from '@/components/StateMessage'
 import { BrandHeader } from '@/components/BrandHeader'
+import { WifiNotice } from '@/components/WifiNotice'
 import { copy } from '@/lib/copy'
 
 // The employee URL depends on window.location, which only exists in the browser.
@@ -32,6 +33,7 @@ export default function DisplayPage() {
       <BrandHeader />
       <main className="flex flex-1 overflow-hidden">
         <aside className="flex w-1/3 flex-col items-center justify-center gap-4 border-r border-brand-border/20 p-8">
+          <WifiNotice />
           {employeeUrl && (
             <img
               src={`/api/qr?url=${encodeURIComponent(employeeUrl)}`}

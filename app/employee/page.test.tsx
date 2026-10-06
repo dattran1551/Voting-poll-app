@@ -75,4 +75,14 @@ describe('EmployeePage', () => {
 
     expect(screen.getByText('995')).toBeInTheDocument()
   })
+
+  it('shows the wifi notice in every state of the Employee screen', () => {
+    vi.spyOn(listModule, 'useQuestionList').mockReturnValue({ questions: [], state: 'ready' })
+    for (const gate of ['checking', 'waiting', 'admitted'] as const) {
+      vi.spyOn(gateModule, 'useCapacityGate').mockReturnValue(gate)
+      const { unmount } = render(<EmployeePage />)
+      expect(screen.getByText('Vui lòng dùng wifi VNG để truy cập / Please use VNG wifi to access the app')).toBeInTheDocument()
+      unmount()
+    }
+  })
 })

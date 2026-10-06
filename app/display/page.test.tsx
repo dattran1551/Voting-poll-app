@@ -37,4 +37,13 @@ describe('DisplayPage', () => {
     expect(screen.getByText('Q1')).toBeInTheDocument()
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
+
+  it('shows the wifi notice once, directly above the QR code', () => {
+    vi.spyOn(useQuestionListModule, 'useQuestionList').mockReturnValue({ questions: [], state: 'ready' })
+    render(<DisplayPage />)
+    const notices = screen.getAllByText('Vui lòng dùng wifi VNG để truy cập / Please use VNG wifi to access the app')
+    expect(notices).toHaveLength(1)
+    const qr = screen.getByAltText('QR code')
+    expect(notices[0].compareDocumentPosition(qr) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  })
 })

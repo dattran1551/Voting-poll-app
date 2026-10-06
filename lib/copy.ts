@@ -32,5 +32,6 @@ export const copy = {
     headerTitleVi: 'Q&A CÙNG GMT',
     headerTitleEn: 'ASK YOUR QUESTIONS FOR GMT',
     logoAlt: 'VNGGames ON',
+    wifiNotice: 'Vui lòng dùng wifi VNG để truy cập / Please use VNG wifi to access the app',
   },
 } as const
