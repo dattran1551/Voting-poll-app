@@ -46,4 +46,13 @@ describe('DisplayPage', () => {
     const qr = screen.getByAltText('QR code')
     expect(notices[0].compareDocumentPosition(qr) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
   })
+
+  it('renders questions at the smaller stage size', () => {
+    vi.spyOn(useQuestionListModule, 'useQuestionList').mockReturnValue({
+      questions: [{ id: '1', content: 'Q1', status: 'approved', likeCount: 2, createdAt: 'now' }],
+      state: 'ready',
+    })
+    render(<DisplayPage />)
+    expect(screen.getByText('Q1').className).toContain('text-[18px]')
+  })
 })

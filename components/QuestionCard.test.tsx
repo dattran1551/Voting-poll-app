@@ -38,4 +38,20 @@ describe('QuestionCard', () => {
     render(<QuestionCard question={question} likable={false} liked={false} onLike={() => {}} />)
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
   })
+
+  it('keeps the default size: 18px on phones, 26px from the sm breakpoint', () => {
+    render(<QuestionCard question={question} likable liked={false} onLike={() => {}} />)
+    for (const el of [screen.getByText('Khi nào có bonus?'), screen.getByText('3')]) {
+      expect(el.className).toContain('text-lg')
+      expect(el.className).toContain('sm:text-[26px]')
+    }
+  })
+
+  it('uses a ~30% smaller 18px size on the stage Display for both text and like count', () => {
+    render(<QuestionCard question={question} likable={false} liked={false} onLike={() => {}} variant="stage" />)
+    for (const el of [screen.getByText('Khi nào có bonus?'), screen.getByText('3')]) {
+      expect(el.className).toContain('text-[18px]')
+      expect(el.className).not.toContain('sm:text-[26px]')
+    }
+  })
 })

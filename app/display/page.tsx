@@ -53,7 +53,7 @@ export default function DisplayPage() {
           ) : (
             <div className="flex flex-col gap-4">
               {questions.map((question) => (
-                <QuestionCard key={question.id} question={question} likable={false} liked={false} onLike={() => {}} />
+                <QuestionCard key={question.id} question={question} likable={false} liked={false} onLike={() => {}} variant="stage" />
               ))}
             </div>
           )}
