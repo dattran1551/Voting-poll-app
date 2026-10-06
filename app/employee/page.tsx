@@ -10,7 +10,7 @@ import { StateMessage } from '@/components/StateMessage'
 import { BrandHeader } from '@/components/BrandHeader'
 import { copy } from '@/lib/copy'
 
-const MAX_LENGTH = 500
+const MAX_LENGTH = 1000
 
 export default function EmployeePage() {
   const gateState = useCapacityGate()

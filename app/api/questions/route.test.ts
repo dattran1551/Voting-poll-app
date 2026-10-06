@@ -51,10 +51,22 @@ describe('POST /api/questions', () => {
     expect(response.status).toBe(400)
   })
 
-  it('rejects content over 500 characters', async () => {
+  it('accepts content of exactly 1000 characters', async () => {
+    vi.spyOn(questions, 'createQuestion').mockResolvedValue({
+      id: '1', content: 'a'.repeat(1000), status: 'pending', likeCount: 0, createdAt: '2026-10-07T00:00:00.000Z',
+    })
     const request = new Request('http://localhost/api/questions', {
       method: 'POST',
-      body: JSON.stringify({ content: 'a'.repeat(501) }),
+      body: JSON.stringify({ content: 'a'.repeat(1000) }),
+    })
+    const response = await POST(request as never)
+    expect(response.status).toBe(201)
+  })
+
+  it('rejects content over 1000 characters', async () => {
+    const request = new Request('http://localhost/api/questions', {
+      method: 'POST',
+      body: JSON.stringify({ content: 'a'.repeat(1001) }),
     })
     const response = await POST(request as never)
     expect(response.status).toBe(400)
